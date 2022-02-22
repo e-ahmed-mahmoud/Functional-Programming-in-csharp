@@ -42,26 +42,26 @@ namespace Example_higher_order_functions
                        select (from rule in rules 
                             where rule.Qulify(order) 
                             select (new { discount = rule.CalDiscount(order) }))
-                            .OrderBy(d => d.discount).Take(3).Sum(dis => dis.discount);
+                            .OrderBy(d => d.discount).Take(3).Average(dis => dis.discount);
             return res ;
         }
 
         #region rules functions defination 
         //rule 1 expire date
         public static bool QulifyRule1(Order order) => order.ExpireDate <= DateTime.Now.AddMonths(-1);
-        public static double CalRule1(Order order) => order.UnitePrice - (order.UnitePrice * 10 / 100);
+        public static double CalRule1(Order order) => (10 * order.UnitePrice / 100) ;
 
         //rule 2 Quntity > 50
-        public static bool QulifyRule2(Order order) => order.ExpireDate <= DateTime.Now.AddMonths(-1);
-        public static double CalRule2(Order order) => order.UnitePrice - (order.UnitePrice * 10 / 100);
+        public static bool QulifyRule2(Order order) => order.Quantity > 50;
+        public static double CalRule2(Order order) => (5 * order.UnitePrice / 100);
 
         //rule 3 Unite Price > 200$
-        public static bool QulifyRule3(Order order) => order.ExpireDate <= DateTime.Now.AddMonths(-1);
-        public static double CalRule3(Order order) => order.UnitePrice - (order.UnitePrice * 10 / 100);
+        public static bool QulifyRule3(Order order) => order.UnitePrice >= 200 ;
+        public static double CalRule3(Order order) => (12 * order.UnitePrice / 100);
 
         //rule 4 expire date < 1 month and unite price > 300$
-        public static bool QulifyRule4(Order order) => order.ExpireDate <= DateTime.Now.AddMonths(-1);
-        public static double CalRule4(Order order) => order.UnitePrice - (order.UnitePrice * 10 / 100);
+        public static bool QulifyRule4(Order order) => order.ExpireDate <= DateTime.Now.AddMonths(-1) && order.UnitePrice >= 300;
+        public static double CalRule4(Order order) => (20 * order.UnitePrice / 100);
 
 
 
